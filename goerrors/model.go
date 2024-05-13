@@ -1,7 +1,8 @@
 package goerrors
 
 type CustomError struct {
-	Message    string
-	Code       string
-	HttpStatus int
+	Title      string `json:"title"`
+	Code       string `json:"code"`
+	Message    string `json:"message"`
+	HttpStatus int    `json:"http_status"`
 }

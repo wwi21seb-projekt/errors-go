@@ -10,9 +10,10 @@ import (
 )
 
 type CustomError struct {
-	Message    string
-	Code       string
-	HttpStatus int
+	Title      string `json:"title"`
+	Code       string `json:"code"`
+	Message    string `json:"message"`
+	HttpStatus int    `json:"http_status"`
 }
 
 func main() {
@@ -49,7 +50,7 @@ func main() {
 	_, _ = out.WriteString("package goerrors\n\n")
 	_, _ = out.WriteString("var (\n")
 	for _, e := range errors {
-		_, _ = out.WriteString(fmt.Sprintf("\t%s = &CustomError{\n\t\tMessage: \"%s\",\n\t\tCode: \"%s\",\n\t\tHttpStatus: %d,\n\t}\n", e.Code, e.Message, e.Code, e.HttpStatus))
+		_, _ = out.WriteString(fmt.Sprintf("\t%s = &CustomError{\n\t\tMessage: \"%s\",\n\t\tCode: \"%s\",\n\t\tHttpStatus: %d,\n\t}\n", e.Title, e.Message, e.Code, e.HttpStatus))
 	}
 	_, _ = out.WriteString(")\n")
 }
