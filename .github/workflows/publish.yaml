@@ -1,0 +1,40 @@
+name: Publish Error Codes
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Install SVU
+        run: |
+          go install github.com/caarlos0/svu@latest
+          echo "${{ github.workspace }}/go/bin" >> $GITHUB_PATH
+
+      - name: Calculate next version
+        id: next-version
+        run: echo "NEXT_VERSION=$(svu next)" >> $GITHUB_ENV
+
+      - name: Create Git Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag $NEXT_VERSION
+          git push origin $NEXT_VERSION

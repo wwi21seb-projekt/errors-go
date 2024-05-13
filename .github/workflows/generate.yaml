@@ -33,8 +33,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          commit-message: "chore: update error codes"
-          title: "chore: update error codes"
-          body: "This PR updates the error codes. Merging this PR will trigger deployments for Go and TypeScript domains."
+          commit-message: ${{ github.event.client_payload.commit-message }}
+          title: "Uptake new error codes"
+          body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
           branch: "update-error-codes"
-          team-reviewers: "server"
+          team-reviewers: "api-maintainers"
