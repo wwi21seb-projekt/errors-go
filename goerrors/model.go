@@ -1,4 +1,4 @@
-package errors
+package goerrors
 
 type CustomError struct {
 	Message    string

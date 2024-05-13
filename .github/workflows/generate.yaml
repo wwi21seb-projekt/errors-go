@@ -3,7 +3,7 @@ name: Generate Error Codes
 on:
   repository_dispatch:
     types:
-      - generate-errors
+      - errors-go-errors
   workflow_dispatch:
 
 jobs:
@@ -19,10 +19,10 @@ jobs:
           go-version-file: go.mod
 
       - name: Generate Golang errors
-        run: go run generate.go && go fmt ./errors.go
+        run: go run cmd/server/main.go && go fmt ./goerrors/errors.go
 
       - name: Generate token
-        id: generate-token
+        id: errors-go-token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
@@ -31,7 +31,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ steps.generate-token.outputs.token }}
+          token: ${{ steps.errors-go-token.outputs.token }}
           commit-message: ${{ github.event.client_payload.commit-message }}
           title: "Uptake new error codes"
           body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
