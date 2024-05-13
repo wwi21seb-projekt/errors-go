@@ -20,14 +20,13 @@ jobs:
 
       - name: Generate Golang errors
         run: go run generate.go && go fmt ./errors.go
-        working-directory: ./go-errors
 
       - name: Generate token
         id: generate-token
         uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6

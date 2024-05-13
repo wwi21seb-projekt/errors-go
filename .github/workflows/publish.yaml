@@ -32,7 +32,21 @@ jobs:
         id: next-version
         run: echo "NEXT_VERSION=$(svu next)" >> $GITHUB_ENV
 
+      - name: Determine if a release is necessary
+        id: determine-release
+        run: |
+            CURRENT_VERSION=$(svu current)
+            NEXT_VERSION=$(svu next)
+            if [ "$CURRENT_VERSION" = "$NEXT_VERSION" ]; then
+                # No release is necessary, set the output to false
+                echo "release_needed=false" >> $GITHUB_OUTPUT
+            else
+                # A release is necessary, set the output to true
+                echo "release_needed=true" >> $GITHUB_OUTPUT
+            fi
+
       - name: Create Git Tag
+        if: steps.determine-release.outputs.release_needed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
