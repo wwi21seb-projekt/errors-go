@@ -16,7 +16,7 @@ type CustomError struct {
 
 func main() {
 	// Download the errors.json file from the repository
-	response, err := http.Get("https://raw.githubusercontent.com/wwi21seb-projekt/error-domain/main/errors/errors.json")
+	response, err := http.Get("https://raw.githubusercontent.com/wwi21seb-projekt/error-domain/main/errors.json")
 	if err != nil {
 		panic(err)
 	}
