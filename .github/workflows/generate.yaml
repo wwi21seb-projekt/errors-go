@@ -33,19 +33,11 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Set commit message
-        id: set-commit-message
-        run: |
-          if [[ -n "${{ github.event.client_payload.commit-message }}" ]]; then
-            echo "commit_message=${{ github.event.client_payload.commit-message }}" >> $GITHUB_OUTPUT
-          else
-            echo "commit_message=${{ inputs.commit-message }}" >> $GITHUB_OUTPUT
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.errors-go-token.outputs.token }}
-          commit-message: ${{ steps.set-commit-message.outputs.commit_message }}
+          commit-message: ${{ github.event.client_payload.commit-message || inputs.commit-message }}
           title: "Uptake new error codes"
           body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
           branch: "update-error-codes"
