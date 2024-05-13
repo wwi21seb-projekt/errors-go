@@ -37,7 +37,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.errors-go-token.outputs.token }}
-          commit-message: ${{ github.event.client_payload.commit-message || inputs.commit-message }}
+          commit-message: |
+            ${{ github.event.client_payload.commit-message || inputs.commit-message }}
           title: "Uptake new error codes"
           body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
           branch: "update-error-codes"
