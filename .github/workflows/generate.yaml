@@ -3,7 +3,7 @@ name: Generate Error Codes
 on:
   repository_dispatch:
     types:
-      - errors-go-errors
+      - generate-errors
   workflow_dispatch:
 
 jobs:
