@@ -5,6 +5,11 @@ on:
     types:
       - generate-errors
   workflow_dispatch:
+    inputs:
+      commit-message:
+        description: "Commit message for the generated error codes"
+        required: false
+        default: "chore: update error codes"
 
 jobs:
   generate-and-commit:
@@ -19,7 +24,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Generate Golang errors
-        run: go run cmd/server/main.go && go fmt ./goerrors/errors.go
+        run: go run cmd/errors-go/main.go && go fmt ./goerrors/errors.go
 
       - name: Generate token
         id: errors-go-token
@@ -28,11 +33,19 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Set commit message
+        id: set-commit-message
+        run: |
+          if [[ -n "${{ github.event.client_payload.commit-message }}" ]]; then
+            echo "commit_message=${{ github.event.client_payload.commit-message }}" >> $GITHUB_OUTPUT
+          else
+            echo "commit_message=${{ inputs.commit-message }}" >> $GITHUB_OUTPUT
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.errors-go-token.outputs.token }}
-          commit-message: ${{ github.event.client_payload.commit-message }}
+          commit-message: ${{ steps.set-commit-message.outputs.commit_message }}
           title: "Uptake new error codes"
           body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
           branch: "update-error-codes"
