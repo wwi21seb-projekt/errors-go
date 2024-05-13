@@ -33,12 +33,33 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Prepare and get commit message
+        id: prepare-and-get-commit-message
+        run: |
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            COMMIT_MESSAGE="${{ github.event.client_payload.commit-message }}"
+          else
+            COMMIT_MESSAGE="${{ github.event.inputs.commit-message }}"
+          fi
+
+          # Save commit message to a file (if needed)
+          echo "$COMMIT_MESSAGE" > commit-message.txt
+
+          # Read the file into a variable
+          body=$(cat commit-message.txt)
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "$delimiter" >> $GITHUB_OUTPUT
+
+          # Clean up the file
+          rm commit-message.txt
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ steps.errors-go-token.outputs.token }}
-          commit-message: |
-            ${{ github.event.client_payload.commit-message || inputs.commit-message }}
+          commit-message: ${{ steps.prepare-and-get-commit-message.outputs.body }}
           title: "Uptake new error codes"
           body: ":robot: This PR updates the error codes. Merging this PR will trigger a deployment for the Go domain."
           branch: "update-error-codes"
