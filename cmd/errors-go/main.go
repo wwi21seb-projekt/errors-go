@@ -50,7 +50,7 @@ func main() {
 	_, _ = out.WriteString("package goerrors\n\n")
 	_, _ = out.WriteString("var (\n")
 	for _, e := range errors {
-		_, _ = out.WriteString(fmt.Sprintf("\t%s = &CustomError{\n\t\tMessage: \"%s\",\n\t\tCode: \"%s\",\n\t\tHttpStatus: %d,\n\t}\n", e.Title, e.Message, e.Code, e.HttpStatus))
+		_, _ = out.WriteString(fmt.Sprintf("\t%s = &CustomError{\n\t\tTitle: \"%s\",\n\t\tMessage: \"%s\",\n\t\tCode: \"%s\",\n\t\tHttpStatus: %d,\n\t}\n", e.Title, e.Title, e.Message, e.Code, e.HttpStatus))
 	}
 	_, _ = out.WriteString(")\n")
 }
