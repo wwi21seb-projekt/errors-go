@@ -134,4 +134,16 @@ var (
 		Code:       "ERR-022",
 		HttpStatus: 409,
 	}
+	NotificationNotFound = &CustomError{
+		Title:      "NotificationNotFound",
+		Message:    "The notification was not found. Please check the notification ID and try again.",
+		Code:       "ERR-023",
+		HttpStatus: 404,
+	}
+	DeleteNotificationForbidden = &CustomError{
+		Title:      "DeleteNotificationForbidden",
+		Message:    "You can only delete your own notifications.",
+		Code:       "ERR-024",
+		HttpStatus: 403,
+	}
 )
