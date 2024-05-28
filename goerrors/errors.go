@@ -84,7 +84,7 @@ var (
 		Title:      "Unauthorized",
 		Message:    "The request is unauthorized. Please login to your account.",
 		Code:       "ERR-014",
-		HttpStatus: 401,
+		HttpStatus: 208,
 	}
 	SubscriptionNotFound = &CustomError{
 		Title:      "SubscriptionNotFound",
@@ -145,5 +145,23 @@ var (
 		Message:    "You can only delete your own notifications.",
 		Code:       "ERR-024",
 		HttpStatus: 403,
+	}
+	PasswordResetTokenInvalid = &CustomError{
+		Title:      "PasswordResetTokenInvalid",
+		Message:    "The password reset token is invalid or has expired. Please request a new token and try again.",
+		Code:       "ERR-025",
+		HttpStatus: 403,
+	}
+	ChatAlreadyExists = &CustomError{
+		Title:      "ChatAlreadyExists",
+		Message:    "The chat already exists. Please check the username and try again.",
+		Code:       "ERR-026",
+		HttpStatus: 409,
+	}
+	ChatNotFound = &CustomError{
+		Title:      "ChatNotFound",
+		Message:    "The chat was not found. Please check the chat ID and try again.",
+		Code:       "ERR-027",
+		HttpStatus: 404,
 	}
 )
