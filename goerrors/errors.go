@@ -2,6 +2,12 @@
 package goerrors
 
 var (
+	EndpointNotFound = &CustomError{
+		Title:      "EndpointNotFound",
+		Message:    "The endpoint was not found. Please check the endpoint and try again.",
+		Code:       "ERR-000",
+		HttpStatus: 404,
+	}
 	BadRequest = &CustomError{
 		Title:      "BadRequest",
 		Message:    "The request body is invalid. Please check the request body and try again.",
@@ -162,6 +168,12 @@ var (
 		Title:      "ChatNotFound",
 		Message:    "The chat was not found. Please check the chat ID and try again.",
 		Code:       "ERR-027",
+		HttpStatus: 404,
+	}
+	ImageNotFound = &CustomError{
+		Title:      "ImageNotFound",
+		Message:    "The image was not found. Please check the image URL and try again.",
+		Code:       "ERR-028",
 		HttpStatus: 404,
 	}
 )
