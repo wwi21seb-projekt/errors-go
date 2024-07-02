@@ -54,7 +54,7 @@ var (
 		Title:      "InvalidCredentials",
 		Message:    "The credentials are invalid. Please check the credentials and try again.",
 		Code:       "ERR-008",
-		HttpStatus: 404,
+		HttpStatus: 403,
 	}
 	InternalServerError = &CustomError{
 		Title:      "InternalServerError",
@@ -90,7 +90,7 @@ var (
 		Title:      "Unauthorized",
 		Message:    "The request is unauthorized. Please login to your account.",
 		Code:       "ERR-014",
-		HttpStatus: 208,
+		HttpStatus: 401,
 	}
 	SubscriptionNotFound = &CustomError{
 		Title:      "SubscriptionNotFound",
