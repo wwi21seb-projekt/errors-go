@@ -84,7 +84,7 @@ var (
 		Title:      "UserAlreadyActivated",
 		Message:    "The user is already activated. Please login to your account.",
 		Code:       "ERR-013",
-		HttpStatus: 400,
+		HttpStatus: 208,
 	}
 	Unauthorized = &CustomError{
 		Title:      "Unauthorized",
